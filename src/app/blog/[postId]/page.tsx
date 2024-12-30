@@ -88,7 +88,7 @@ export default async function BlogPostPage({ params }: { params: { postId: strin
 export async function generateMetadata({ params }: { params: { postId: string } }) {
   try {
     await connectDB();
-    const post = await BlogPostModel.findById(params.postId).lean() as IBlogPost | null;
+    const post = await BlogPostModel.findById(await params.postId).lean() as IBlogPost | null;
 
     if (!post) {
       return {

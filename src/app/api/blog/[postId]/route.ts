@@ -10,7 +10,7 @@ export async function GET(
 ) {
   try {
     await connectDB();
-    const post = await BlogPostModel.findById(params.postId);
+    const post = await BlogPostModel.findById(await params.postId);
     
     if (!post) {
       return NextResponse.json(
@@ -128,7 +128,7 @@ export async function PATCH(
 
     await connectDB();
     const post = await BlogPostModel.findByIdAndUpdate(
-      params.postId,
+      await params.postId,
       { isPublished },
       { new: true }
     );
