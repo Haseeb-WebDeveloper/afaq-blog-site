@@ -1,24 +1,18 @@
 import { NextResponse, NextRequest } from "next/server";
 import { verifyToken } from "./lib/jwt";
 
-const publicRoutes = [
-    '/api/auth/login',
-    '/api/auth/signup',
-    '/auth/signup',
-    '/auth/login',
-    '/',
-    '/blog',
-    '/blog/[postId]',
-    '/api/blog',
-    '/api/blog/[postId]',
-    '/about',
-    '/contact',
-    '/privacy',
-    '/terms',
+
+const protectedRoutes = [
+    '/admin',
+    '/admin/posts',
+    '/admin/posts/edit/[postId]',
+    '/admin/analytics',
+    '/admin/users',
 ];
 
 export async function middleware(req: NextRequest) {
-    if (publicRoutes.includes(req.nextUrl.pathname)) {
+    if (!protectedRoutes.includes(req.nextUrl.pathname)) {
+        console.log(!protectedRoutes.includes(req.nextUrl.pathname));
         return NextResponse.next();
     }
 

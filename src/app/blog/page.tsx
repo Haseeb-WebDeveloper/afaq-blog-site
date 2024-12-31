@@ -46,7 +46,7 @@ export default async function BlogPage({
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-28">
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">
           <h1 className="text-4xl font-bold tracking-tight mb-4">
@@ -58,7 +58,7 @@ export default async function BlogPage({
         </div>
 
         {/* Search and Filters */}
-        <div className="max-w-5xl mx-auto mb-12">
+        <div className="max-w-8xl mx-auto mb-12">
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
             <div className="w-full sm:w-96">
               <SearchBar />
@@ -82,9 +82,9 @@ export default async function BlogPage({
         </div>
 
         {/* Posts Grid */}
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-8xl mx-auto">
           {posts.length > 0 ? (
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {posts.map((post) => (
                 <Link 
                   key={post.title}

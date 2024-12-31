@@ -41,7 +41,7 @@ export default async function AdminLayout({
                 Posts
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link 
                 href="/admin/settings" 
                 className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
@@ -49,7 +49,7 @@ export default async function AdminLayout({
                 <Settings size={20} />
                 Settings
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
         <div className="p-4 border-t">

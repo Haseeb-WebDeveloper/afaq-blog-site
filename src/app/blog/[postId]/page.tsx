@@ -17,7 +17,7 @@ export default async function BlogPostPage({ params }: { params: { postId: strin
     return (
       <div className="min-h-screen bg-background">
         <main className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-8xl flex flex-col items-start mx-auto">
             {/* Back button */}
             <Link 
               href="/blog" 
@@ -27,7 +27,7 @@ export default async function BlogPostPage({ params }: { params: { postId: strin
               Back to all posts
             </Link>
 
-            <article className="space-y-8">
+            <article className="space-y-8 max-w-6xl">
               {/* Header */}
               <header className="space-y-4">
                 <h1 className="text-4xl font-bold tracking-tight">{post.title}</h1>
@@ -42,7 +42,7 @@ export default async function BlogPostPage({ params }: { params: { postId: strin
 
               {/* Featured Image */}
               {post.featuredImage && (
-                <div className="aspect-video relative overflow-hidden rounded-lg">
+                <div className="aspect-video max-w-3xl relative overflow-hidden rounded-lg">
                   <img 
                     src={post.featuredImage} 
                     alt={post.title}

@@ -43,11 +43,11 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="mt-8 pt-8 border-t">
+        {/* <div className="mt-8 pt-8 border-t">
           <p className="text-center text-muted-foreground">
             © {new Date().getFullYear()} BlogSpace. All rights reserved.
           </p>
-        </div>
+        </div> */}
       </div>
     </footer>
   );
