@@ -3,7 +3,7 @@ import { verifyToken } from "./lib/jwt";
 
 
 const protectedRoutes = [
-    '/admin',
+    // '/admin',
     '/admin/posts',
     '/admin/posts/edit/[postId]',
     '/admin/analytics',

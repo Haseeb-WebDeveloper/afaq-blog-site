@@ -55,9 +55,6 @@ function LoginForm() {
       if (!res.ok) {
         throw new Error(data.error || 'Something went wrong');
       }
-
-      // Redirect to admin dashboard on success
-      console.log(data.token);
       router.push('/admin');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
