@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
     // Check if this is the first admin
     const adminCount = await Admin.countDocuments();
-    if (adminCount > 0) {
+    if (adminCount > 2) {
       return NextResponse.json(
         { error: "Only one admin account is allowed" },
         { status: 403 }
