@@ -7,11 +7,14 @@ const publicRoutes = [
     '/auth/signup',
     '/auth/login',
     '/',
-    '/admin',
-    '/admin/posts',
-    '/admin/posts/edit/[postId]',
-    '/admin/analytics',
-    '/admin/users',
+    '/blog',
+    '/blog/[postId]',
+    '/api/blog',
+    '/api/blog/[postId]',
+    '/about',
+    '/contact',
+    '/privacy',
+    '/terms',
 ];
 
 export async function middleware(req: NextRequest) {

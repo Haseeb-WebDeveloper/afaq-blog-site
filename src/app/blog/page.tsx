@@ -13,30 +13,32 @@ function getReadingTime(content: string) {
   return minutes;
 }
 
-
-
 export default async function BlogPage({
-   searchParams,
+  searchParams,
 }: {
   searchParams: { tag?: string; q?: string };
 }) {
+  // Await searchParams before using
+  const tag = await searchParams.tag;
+  const query = await searchParams.q;
+
   await connectDB();
 
   // Build query based on search params
-  const query: any = { isPublished: true };
-  if (searchParams.tag) {
-    query.tags = searchParams.tag;
+  const dbQuery: any = { isPublished: true };
+  if (tag) {
+    dbQuery.tags = tag;
   }
-  if (searchParams.q) {
-    query.$or = [
-      { title: { $regex: searchParams.q, $options: 'i' } },
-      { content: { $regex: searchParams.q, $options: 'i' } },
+  if (query) {
+    dbQuery.$or = [
+      { title: { $regex: query, $options: 'i' } },
+      { content: { $regex: query, $options: 'i' } },
     ];
   }
 
   // Fetch posts and all unique tags
   const [posts, allTags] = await Promise.all([
-    BlogPostModel.find(query)
+    BlogPostModel.find(dbQuery)
       .sort({ createdAt: -1 })
       .lean(),
     BlogPostModel.distinct('tags', { isPublished: true })
@@ -62,17 +64,17 @@ export default async function BlogPage({
               <SearchBar />
             </div>
             <div className="flex flex-wrap gap-2">
-              {allTags.map((tag) => (
+              {allTags.map((tagItem) => (
                 <Link 
-                  key={tag} 
-                  href={`/blog?tag=${tag}`}
+                  key={tagItem} 
+                  href={`/blog?tag=${tagItem}`}
                   className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-colors
-                    ${searchParams.tag === tag 
+                    ${tag === tagItem 
                       ? 'bg-primary text-primary-foreground' 
                       : 'bg-muted hover:bg-muted/80'}`}
                 >
                   <Tag className="w-3 h-3" />
-                  {tag}
+                  {tagItem}
                 </Link>
               ))}
             </div>
@@ -124,12 +126,12 @@ export default async function BlogPage({
                     {/* Tags */}
                     {post.tags && post.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mt-auto">
-                        {post.tags.map((tag: string) => (
+                        {post.tags.map((tagItem: string) => (
                           <span
-                            key={tag}
+                            key={tagItem}
                             className="px-2 py-1 bg-muted rounded-md text-xs"
                           >
-                            {tag}
+                            {tagItem}
                           </span>
                         ))}
                       </div>
@@ -142,7 +144,7 @@ export default async function BlogPage({
             <div className="text-center py-12">
               <h3 className="text-lg font-medium mb-2">No posts found</h3>
               <p className="text-muted-foreground">
-                {searchParams.q || searchParams.tag 
+                {(query || tag)
                   ? "Try adjusting your search or filter to find what you're looking for."
                   : "Check back later for new posts."}
               </p>
