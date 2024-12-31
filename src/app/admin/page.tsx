@@ -1,14 +1,16 @@
+'use client';
+
 import { Card } from "@/components/ui/card";
 import { FileText, Users, Eye } from "lucide-react";
 import Link from "next/link";
-import { BlogPostModel } from "@/database/models/blog-post.model";
-import connectDB from "@/database/connect";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default async function AdminDashboard() {
-  let stats = [
+export default function AdminDashboard() {
+  const [stats, setStats] = useState([
     {
       title: "Total Posts",
-      value: "0",
+      value: "0", 
       icon: FileText,
       link: "/admin/posts"
     },
@@ -24,26 +26,49 @@ export default async function AdminDashboard() {
       icon: Users,
       link: "/admin/users"
     }
-  ];
+  ]);
 
-  let recentPosts: any[] = [];
+  const [recentPosts, setRecentPosts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  try {
-    await connectDB();
-    
-    // Get total posts count
-    const totalPosts = await BlogPostModel.countDocuments();
-    stats[0].value = totalPosts.toString();
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const response = await axios.get('/api/admin/dashboard');
+        const { totalPosts, recentPosts: posts } = response.data;
+        
+        setStats(prev => [
+          { ...prev[0], value: totalPosts.toString() },
+          ...prev.slice(1)
+        ]);
+        
+        setRecentPosts(posts);
+      } catch (err) {
+        console.error("Error fetching dashboard data:", err);
+        setError("Failed to load dashboard data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    // Get recent posts
-    recentPosts = await BlogPostModel.find()
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .select('title isPublished createdAt updatedAt')
-      .lean();
+    fetchDashboardData();
+  }, []);
 
-  } catch (error) {
-    console.error("Error fetching dashboard data:", error);
+  if (isLoading) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-destructive">{error}</p>
+      </div>
+    );
   }
 
   return (

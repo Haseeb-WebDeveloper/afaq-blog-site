@@ -1,20 +1,59 @@
+'use client';
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, Eye, Globe, Lock } from "lucide-react";
 import Link from "next/link";
-import { BlogPostModel } from "@/database/models/blog-post.model";
-import connectDB from "@/database/connect";
 import PublishButton from "./components/publish-button";
 import DeletePostButton from "./components/delete-post-button";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default async function PostsPage() {
-  await connectDB();
-  
-  // Fetch posts with pagination
-  const posts = await BlogPostModel.find()
-    .sort({ createdAt: -1 })
-    .select('title content isPublished createdAt updatedAt')
-    .lean();
+interface Post {
+  _id: string;
+  title: string;
+  content: string;
+  isPublished: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export default function PostsPage() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get('/api/blog');
+        setPosts(response.data.posts);
+      } catch (err: any) {
+        console.error("Error fetching posts:", err);
+        setError("Failed to load posts");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-destructive">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -86,4 +125,4 @@ export default async function PostsPage() {
       </Card>
     </div>
   );
-} 
+}

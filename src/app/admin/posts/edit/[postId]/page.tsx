@@ -11,13 +11,15 @@ interface PostData {
   featuredImage: string;
 }
 
-export default function EditPostPage({ 
-  params 
-}: { 
-  params: { postId: string } 
-}) {
+type EditPostPageProps = {
+  params: {
+    postId: string;
+  };
+};
+
+export default function EditPostPage({ params }: EditPostPageProps) {
   const [initialData, setInitialData] = useState<PostData | null>(null);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -27,12 +29,12 @@ export default function EditPostPage({
         setInitialData({
           title: post.title,
           content: post.content,
-          tags: post.tags?.join(', ') || '',
-          featuredImage: post.featuredImage || ''
+          tags: post.tags?.join(", ") || "",
+          featuredImage: post.featuredImage || "",
         });
-      } catch (error) {
-        console.error('Error fetching post:', error);
-        setError('Failed to load post');
+      } catch (err: any) {
+        console.error("Error fetching post:", err?.message || err);
+        setError("Failed to load post");
       }
     };
 
