@@ -10,6 +10,8 @@ export default async function AdminLayout({
 }) {
   const user = await getUser();
 
+  console.log(user);
+
   if (!user) {
     redirect('/auth/login');
   }
