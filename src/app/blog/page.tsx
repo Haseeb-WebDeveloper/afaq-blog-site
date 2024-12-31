@@ -13,8 +13,10 @@ function getReadingTime(content: string) {
   return minutes;
 }
 
+
+
 export default async function BlogPage({
-  searchParams,
+   searchParams,
 }: {
   searchParams: { tag?: string; q?: string };
 }) {
