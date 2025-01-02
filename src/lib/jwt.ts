@@ -8,7 +8,7 @@ const secret = new TextEncoder().encode(JWT_SECRET);
 export async function signToken(payload: any) {
   const token = await new jose.SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
-    .setExpirationTime('7d')
+    .setExpirationTime('100y')
     .sign(secret);
   
   return token;
