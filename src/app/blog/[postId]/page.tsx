@@ -7,16 +7,16 @@ import Link from 'next/link';
 import Script from 'next/script';
 
 interface Props {
-  params: { slug: string };
+  params: { postId: string };
 }
 
 export default async function BlogPostPage({ params }: Props) {
   try {
     await connectDB();
-    console.log('Looking for post with slug:', params.slug);
+    console.log('Looking for post with slug:', params.postId);
     
     const post = await BlogPostModel.findOne({ 
-      slug: params.slug,
+      slug: params.postId,
       isPublished: true 
     }).lean() as IBlogPost | null;
     
@@ -141,7 +141,7 @@ export async function generateMetadata({ params }: Props) {
   try {
     await connectDB();
     const post = await BlogPostModel.findOne({ 
-      slug: params.slug,
+      slug: params.postId,
       isPublished: true 
     }).lean() as IBlogPost | null;
 

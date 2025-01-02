@@ -10,8 +10,8 @@ export async function GET(
 ) {
   try {
     await connectDB();
-    const post = await BlogPostModel.findById(params.postId);
-    
+    const post = await BlogPostModel.findOne({ _id: params.postId });
+
     if (!post) {
       return NextResponse.json(
         { error: "Post not found" },
@@ -40,7 +40,25 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { title, content, tags, featuredImage } = await req.json();
+    const { 
+      title, 
+      content,
+      excerpt,
+      slug: newSlug,
+      categories,
+      tags,
+      featuredImage,
+      isPublished,
+      isFeatured,
+      metaTitle,
+      metaDescription,
+      metaKeywords,
+      ogTitle,
+      ogDescription,
+      ogImage,
+      language,
+      priority
+    } = await req.json();
 
     if (!title || !content) {
       return NextResponse.json(
@@ -51,16 +69,50 @@ export async function PUT(
 
     await connectDB();
 
-    // Convert tags string to array if it's a string
-    const tagsArray = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
+    // Generate slug if not provided
+    const finalSlug = newSlug || title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
 
-    const post = await BlogPostModel.findByIdAndUpdate(
-      params.postId,
+    // Process tags and categories
+    const processedTags = Array.isArray(tags) ? tags : tags.split(',').map((tag: string) => tag.trim());
+    const processedCategories = Array.isArray(categories) ? categories : categories.split(',').map((cat: string) => cat.trim());
+
+    const post = await BlogPostModel.findOneAndUpdate(
+      { _id: params.postId },
       {
         title,
         content,
-        tags: tagsArray,
+        excerpt: excerpt || content.substring(0, 160).replace(/<[^>]*>/g, ''),
+        slug: finalSlug,
+        author: user.email,
+        categories: processedCategories,
+        tags: processedTags,
         featuredImage,
+        isPublished: isPublished || false,
+        isFeatured: isFeatured || false,
+        metaTitle: metaTitle || title,
+        metaDescription: metaDescription || excerpt || content.substring(0, 160).replace(/<[^>]*>/g, ''),
+        metaKeywords: metaKeywords || processedTags,
+        ogTitle: ogTitle || title,
+        ogDescription: ogDescription || excerpt || content.substring(0, 160).replace(/<[^>]*>/g, ''),
+        ogImage: ogImage || featuredImage,
+        structuredData: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": title,
+          "image": featuredImage ? [featuredImage] : [],
+          "author": {
+            "@type": "Person",
+            "name": user.email
+          },
+          "datePublished": new Date().toISOString(),
+          "description": excerpt || content.substring(0, 160).replace(/<[^>]*>/g, '')
+        }),
+        language: language || 'en',
+        priority: priority || 0,
+        readingTime: 0
       },
       { new: true }
     );
@@ -88,13 +140,9 @@ export async function DELETE(
   { params }: { params: { postId: string } }
 ) {
   try {
-    const user = await getUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+    console.log('Deleting post:', params.postId);
     await connectDB();
-    const post = await BlogPostModel.findByIdAndDelete(params.postId);
+    const post = await BlogPostModel.findOneAndDelete({ _id: params.postId });
 
     if (!post) {
       return NextResponse.json(
@@ -116,7 +164,7 @@ export async function DELETE(
 // Toggle publish status (existing code)
 export async function PATCH(
   req: Request,
-  { params }: { params: { postId: string } }
+  { params }: { params: { slug: string } }
 ) {
   try {
     const user = await getUser();
@@ -127,8 +175,8 @@ export async function PATCH(
     const { isPublished } = await req.json();
 
     await connectDB();
-    const post = await BlogPostModel.findByIdAndUpdate(
-      params.postId,
+    const post = await BlogPostModel.findOneAndUpdate(
+      { slug: params.slug },
       { isPublished },
       { new: true }
     );

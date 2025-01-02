@@ -54,7 +54,7 @@ export async function getBlogContent({ searchParams }: BlogContentProps) {
   // Fetch posts with pagination and serialize the results
   const [postsRaw, totalPosts, featuredPostsRaw] = await Promise.all([
     BlogPostModel.find(query)
-      .sort(sort)
+      .sort(sort as any)
       .skip(skip)
       .limit(limit)
       .select('title slug excerpt content categories tags featuredImage createdAt readingTime author')
@@ -70,14 +70,15 @@ export async function getBlogContent({ searchParams }: BlogContentProps) {
   // Serialize MongoDB objects
   const posts = postsRaw.map(post => ({
     ...post,
-    _id: post._id.toString(),
+    _id: post._id,
     createdAt: post.createdAt?.toISOString(),
     updatedAt: post.updatedAt?.toISOString()
   }));
 
   const featuredPosts = featuredPostsRaw.map(post => ({
     ...post,
-    _id: post._id.toString(),
+    _id: post._id,
+    slug: post.slug,
     createdAt: post.createdAt?.toISOString(),
     updatedAt: post.updatedAt?.toISOString()
   }));

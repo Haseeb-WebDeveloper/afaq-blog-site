@@ -13,7 +13,7 @@ interface PageProps {
 
 export default async function BlogPage({ searchParams }: PageProps) {
   const blogContent = await getBlogContent({ searchParams });
-  
+  console.log("blogContent", blogContent);
   return <BlogLayout content={blogContent} searchParams={searchParams} />;
 }
 

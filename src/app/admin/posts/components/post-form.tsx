@@ -88,6 +88,7 @@ export function PostForm({ initialData, postId }: PostFormProps) {
       };
 
       if (postId) {
+        console.log("postId", postId);
         await axios.put(`/api/blog/${postId}`, payload);
       } else {
         await axios.post('/api/blog/create', payload);

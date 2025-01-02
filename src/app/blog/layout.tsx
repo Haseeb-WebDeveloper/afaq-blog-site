@@ -10,7 +10,7 @@ export default function BlogLayout({
     <div className="min-h-screen flex flex-col">
       <Navbar />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

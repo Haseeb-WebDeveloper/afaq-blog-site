@@ -7,8 +7,22 @@ import axios from "axios";
 interface PostData {
   title: string;
   content: string;
-  tags: string;
+  excerpt: string;
+  slug: string;
+  categories: string[];
+  tags: string[];
   featuredImage: string;
+  isPublished: boolean;
+  isFeatured: boolean;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  language: string;
+  priority: string;
+  readingTime: string;
 }
 
 type EditPostPageProps = {
@@ -29,8 +43,22 @@ export default function EditPostPage({ params }: EditPostPageProps) {
         setInitialData({
           title: post.title,
           content: post.content,
-          tags: post.tags?.join(", ") || "",
+          excerpt: post.excerpt || "",
+          slug: post.slug || "",
+          categories: post.categories || [],
+          tags: post.tags || [],
           featuredImage: post.featuredImage || "",
+          isPublished: post.isPublished || false,
+          isFeatured: post.isFeatured || false,
+          metaTitle: post.metaTitle || "",
+          metaDescription: post.metaDescription || "",
+          metaKeywords: post.metaKeywords || "",
+          ogTitle: post.ogTitle || "",
+          ogDescription: post.ogDescription || "",
+          ogImage: post.ogImage || "",
+          language: post.language || "",
+          priority: post.priority || "",
+          readingTime: post.readingTime || "",
         });
       } catch (err: any) {
         console.error("Error fetching post:", err?.message || err);
