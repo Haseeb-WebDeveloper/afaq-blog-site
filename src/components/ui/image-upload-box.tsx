@@ -59,7 +59,7 @@ export function ImageUploadBox({ value, onChange, className }: ImageUploadBoxPro
       <div
         {...getRootProps()}
         className={cn(
-          "relative cursor-pointer rounded-lg border-2 border-dashed transition-colors",
+          "relative aspect-[16/9] max-h-96 cursor-pointer rounded-lg border-2 border-dashed transition-colors",
           isDragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25",
           className
         )}
@@ -67,7 +67,7 @@ export function ImageUploadBox({ value, onChange, className }: ImageUploadBoxPro
         <input {...getInputProps()} />
         
         {value ? (
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+          <div className="relative aspect-[16/9] max-h-96  overflow-hidden rounded-lg">
             <img
               src={value}
               alt="Uploaded image"
