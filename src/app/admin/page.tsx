@@ -38,8 +38,8 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await axios.get('/api/admin/dashboard');
-        const { totalPosts, recentPosts: posts } = response.data;
+        const response = await fetch  ('/api/admin/dashboard');
+        const { totalPosts, recentPosts: posts } = await response.json();
 
         console.log(totalPosts, posts);
 

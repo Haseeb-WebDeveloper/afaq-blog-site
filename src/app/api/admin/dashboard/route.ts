@@ -10,6 +10,7 @@ export async function GET(req: Request) {
         .sort({ createdAt: -1 })
         .limit(5)
         .lean();
+    console.log(totalPosts, recentPosts);
     return NextResponse.json({ totalPosts, recentPosts }, { status: 200 });
    } catch (error) {
     console.error(error);
