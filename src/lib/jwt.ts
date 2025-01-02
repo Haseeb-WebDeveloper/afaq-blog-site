@@ -14,6 +14,7 @@ export async function signToken(payload: any) {
   return token;
 }
 
+
 export async function verifyToken(token: string) {
   try {
     const { payload } = await jose.jwtVerify(token, secret);

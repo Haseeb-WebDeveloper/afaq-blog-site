@@ -8,13 +8,13 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getUser();
+  // const user = await getUser();
 
-  console.log(user);
+  // console.log(user);
 
-  if (!user) {
-    redirect('/auth/login');
-  }
+  // if (!user) {
+  //   redirect('/auth/login');
+  // }
 
   return (
     <div className="min-h-screen flex bg-muted/30">
