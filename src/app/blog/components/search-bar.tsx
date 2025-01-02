@@ -3,8 +3,13 @@
 import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
+import { cn } from "@/lib/utils";
 
-export default function SearchBar() {
+interface SearchBarProps {
+  className?: string;
+}
+
+export default function SearchBar({ className }: SearchBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -18,6 +23,9 @@ export default function SearchBar() {
       params.delete('q');
     }
 
+    // Reset page when searching
+    params.delete('page');
+
     startTransition(() => {
       router.push(`/blog?${params.toString()}`);
     });
@@ -29,7 +37,11 @@ export default function SearchBar() {
       type="search"
       defaultValue={searchParams.get('q') ?? ''}
       onChange={(e) => handleSearch(e.target.value)}
-      className={isPending ? 'opacity-50' : ''}
+      className={cn(
+        'w-full',
+        isPending && 'opacity-50',
+        className
+      )}
     />
   );
 } 

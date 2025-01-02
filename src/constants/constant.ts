@@ -1,3 +1,28 @@
-export const CATEGORIES = ['Programming', 'Bussiness', 'Tools', 'Education', 'Health', 'Sports', 'Entertainment', 'Technology', 'Science', 'Art', 'Music', 'Travel', 'Food', 'Fashion', 'Gaming', 'Politics', 'Environment'];
+export const CATEGORIES = [
+  'Technology',
+  'Programming',
+  'Design',
+  'Business',
+  'Marketing',
+  'Lifestyle',
+  'Travel',
+  'Food'
+];
 
-export const TAGS = ['Programming', 'Bussiness', 'Tools', 'Education', 'Health', 'Sports', 'Entertainment', 'Technology', 'Science', 'Art', 'Music', 'Travel', 'Food', 'Fashion', 'Gaming', 'Politics', 'Environment'];
+export const TAGS = [
+  'JavaScript',
+  'React',
+  'Next.js',
+  'Node.js',
+  'TypeScript',
+  'Web Development',
+  'Frontend',
+  'Backend',
+  'Full Stack',
+  'UI/UX',
+  'DevOps',
+  'Cloud',
+  'AWS',
+  'Database',
+  'MongoDB'
+];

@@ -10,33 +10,99 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const { title, content, tags, featuredImage } = await req.json();
+        const {
+            title,
+            content,
+            excerpt,
+            slug,
+            categories,
+            tags,
+            featuredImage,
+            isPublished,
+            isFeatured,
+            metaTitle,
+            metaDescription,
+            metaKeywords,
+            ogTitle,
+            ogDescription,
+            ogImage,
+            structuredData,
+            language,
+            priority
+        } = await req.json();
 
+        // Validate required fields
         if (!title || !content) {
-            return NextResponse.json({ message: 'Title and content are required' }, { status: 400 });
+            return NextResponse.json({ 
+                message: 'Title and content are required' 
+            }, { status: 400 });
         }
 
         await connectDB();
 
-        // Convert tags string to array if it's a string
-        const tagsArray = typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()) : tags;
+        // Generate slug if not provided
+        const finalSlug = slug || title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)+/g, '');
 
-        // creating blog post
+        // Check if slug is unique
+        const existingPost = await BlogPostModel.findOne({ slug: finalSlug });
+        if (existingPost) {
+            return NextResponse.json({ 
+                message: 'A post with this slug already exists' 
+            }, { status: 400 });
+        }
+
+        // Process tags and categories
+        const processedTags = Array.isArray(tags) ? tags : tags.split(',').map((tag: string) => tag.trim());
+        const processedCategories = Array.isArray(categories) ? categories : categories.split(',').map((cat: string) => cat.trim());
+
+        // Create the blog post with all fields
         const blogPost = await BlogPostModel.create({ 
-            title, 
-            content, 
-            tags: tagsArray,
-            featuredImage,
+            title,
+            content,
+            excerpt: excerpt || content.substring(0, 160).replace(/<[^>]*>/g, ''), // Strip HTML and limit length
+            slug: finalSlug,
             author: user.email,
-            isPublished: false // Default to draft
+            categories: processedCategories,
+            tags: processedTags,
+            featuredImage,
+            isPublished: isPublished || false,
+            isFeatured: isFeatured || false,
+            // SEO Fields
+            metaTitle: metaTitle || title,
+            metaDescription: metaDescription || excerpt || content.substring(0, 160).replace(/<[^>]*>/g, ''),
+            metaKeywords: metaKeywords || processedTags,
+            // Open Graph
+            ogTitle: ogTitle || title,
+            ogDescription: ogDescription || excerpt || content.substring(0, 160).replace(/<[^>]*>/g, ''),
+            ogImage: ogImage || featuredImage,
+            // Additional SEO
+            structuredData: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                "headline": title,
+                "image": featuredImage ? [featuredImage] : [],
+                "author": {
+                    "@type": "Person",
+                    "name": user.email
+                },
+                "datePublished": new Date().toISOString(),
+                "description": excerpt || content.substring(0, 160).replace(/<[^>]*>/g, '')
+            }),
+            language: language || 'en',
+            priority: priority || 0,
+            readingTime: 0  
         });
 
-        const blogPostFromDB = await BlogPostModel.findById(blogPost._id);
-        console.log(blogPostFromDB);
+        // Verify the post was created and fetch it with virtuals
+        const createdPost = await BlogPostModel.findById(blogPost._id);
+        console.log(createdPost);
 
         return NextResponse.json({ 
             message: 'Blog post created successfully',
-            blogPost
+            post: createdPost
         }, { status: 201 });
 
     } catch (error) {
