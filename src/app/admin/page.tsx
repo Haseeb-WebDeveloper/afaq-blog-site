@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function AdminDashboard() {
+
+  console.log("admin dashboard");
+
   const [stats, setStats] = useState([
     {
       title: "Total Posts",

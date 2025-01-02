@@ -18,13 +18,13 @@ export async function middleware(req: NextRequest) {
 
     const token = req.cookies.get('token');
     if (!token) {
-        return NextResponse.redirect(new URL('/auth/login-token-not-found', req.url));
+        return NextResponse.redirect(new URL('/auth/login', req.url));
     }
 
     try {
         const decoded = await verifyToken(token.value);
         if (!decoded) {
-            return NextResponse.redirect(new URL('/auth/login-decoded-not-found', req.url));
+            return NextResponse.redirect(new URL('/auth/login', req.url));
         }
         return NextResponse.next();
     } catch (error) {

@@ -55,8 +55,8 @@ function LoginForm() {
       if (!res.ok) {
         throw new Error(data.error || 'Something went wrong');
       }
-      router.push('/admin');
-      console.log("redirected to admin");
+      window.location.href = '/admin';
+      console.log("redirected to admin", window.location.href);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
