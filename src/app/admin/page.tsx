@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { FileText, Users, Eye } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 export default function AdminDashboard() {
 
@@ -38,8 +37,14 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await axios.get('/api/admin/dashboard');
-        const { totalPosts, recentPosts: posts } = response.data;
+        const response = await fetch('/api/admin/dashboard');
+        const { totalPosts, recentPosts: posts } = await response.json();
+
+        console.log(totalPosts, posts);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch dashboard data");
+        }
         
         setStats(prev => [
           { ...prev[0], value: totalPosts.toString() },

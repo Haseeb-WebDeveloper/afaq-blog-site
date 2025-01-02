@@ -1,0 +1,3 @@
+export const CATEGORIES = ['Programming', 'Bussiness', 'Tools', 'Education', 'Health', 'Sports', 'Entertainment', 'Technology', 'Science', 'Art', 'Music', 'Travel', 'Food', 'Fashion', 'Gaming', 'Politics', 'Environment'];
+
+export const TAGS = ['Programming', 'Bussiness', 'Tools', 'Education', 'Health', 'Sports', 'Entertainment', 'Technology', 'Science', 'Art', 'Music', 'Travel', 'Food', 'Fashion', 'Gaming', 'Politics', 'Environment'];

@@ -1,3 +1,4 @@
+import { CATEGORIES, TAGS } from "@/constants/constant";
 import mongoose, { Schema, model, models } from "mongoose";
 
 export interface IBlogPost {
@@ -19,8 +20,8 @@ const BlogPostSchema: Schema<IBlogPost> = new mongoose.Schema(
       title: { type: String, required: true },
       content: { type: String, required: true },
       author: { type: String, required: true },
-      categories: { type: [String], default: [] },
-      tags: { type: [String], default: [] },
+      categories: { type: [String], enum: CATEGORIES, default: [] },
+      tags: { type: [String], enum: TAGS, default: [] },
       featuredImage: { type: String, default: null },
       isPublished: { type: Boolean, default: true },
     },
