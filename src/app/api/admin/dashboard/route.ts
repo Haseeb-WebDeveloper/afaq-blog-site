@@ -1,7 +1,7 @@
 import { BlogPostModel } from '@/database/models/blog-post.model';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(req: Request) {
    try {
     const totalPosts = await BlogPostModel.countDocuments({ isPublished: true });
     const recentPosts = await BlogPostModel.find({ isPublished: true })
