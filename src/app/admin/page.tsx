@@ -34,34 +34,34 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // useEffect(() => {
-  //   const fetchDashboardData = async () => {
-  //     try {
-  //       const response = await fetch('/api/admin/dashboard');
-  //       const { totalPosts, recentPosts: posts } = await response.json();
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const response = await fetch('/api/admin/dashboard');
+        const { totalPosts, recentPosts: posts } = await response.json();
 
-  //       console.log(totalPosts, posts);
+        console.log(totalPosts, posts);
 
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch dashboard data");
-  //       }
+        if (!response.ok) {
+          throw new Error("Failed to fetch dashboard data");
+        }
         
-  //       setStats(prev => [
-  //         { ...prev[0], value: totalPosts.toString() },
-  //         ...prev.slice(1)
-  //       ]);
+        setStats(prev => [
+          { ...prev[0], value: totalPosts.toString() },
+          ...prev.slice(1)
+        ]);
         
-  //       setRecentPosts(posts);
-  //     } catch (err) {
-  //       console.error("Error fetching dashboard data:", err);
-  //       setError("Failed to load dashboard data");
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
+        setRecentPosts(posts);
+      } catch (err) {
+        console.error("Error fetching dashboard data:", err);
+        setError("Failed to load dashboard data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  //   fetchDashboardData();
-  // }, []);
+    fetchDashboardData();
+  }, []);
 
   if (isLoading) {
     return (
