@@ -50,12 +50,13 @@ function LoginForm() {
       });
 
       const data = await res.json();
-      console.log(data);
+      console.log("data got after login", data);
 
       if (!res.ok) {
         throw new Error(data.error || 'Something went wrong');
       }
       router.push('/admin');
+      console.log("redirected to admin");
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {

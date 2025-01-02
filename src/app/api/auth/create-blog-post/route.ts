@@ -6,7 +6,6 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
     try {
         const { user } = await getAuthorizationHeader();
-        console.log(user);
         if (!user) {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/database/connect";
-import Admin from "@/database/models/admin";
+import Admin from "@/database/models/admin.model";
 import bcrypt from "bcryptjs";
 import { signToken } from "@/lib/jwt";
 

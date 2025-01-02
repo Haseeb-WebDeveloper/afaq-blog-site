@@ -2,7 +2,7 @@
 
 import * as jose from 'jose';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'guhgguofxw.fxenuffieypf7qrtgypewhbehfbcf-fdsd';
 const secret = new TextEncoder().encode(JWT_SECRET);
 
 export async function signToken(payload: any) {
