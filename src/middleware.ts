@@ -12,7 +12,6 @@ const protectedRoutes = [
 
 export async function middleware(req: NextRequest) {
     if (!protectedRoutes.includes(req.nextUrl.pathname)) {
-        console.log(!protectedRoutes.includes(req.nextUrl.pathname));
         return NextResponse.next();
     }
 

@@ -13,7 +13,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 overflow-hidden  ">
           <div className="flex items-center">
-            <Image src="/logo.jpg" alt="Logo" width={100} height={100} className="w-14 h-14" />
+            <Link href="/">
+              <Image src="/logo.jpg" alt="Logo" width={100} height={100} className="w-14 h-14" />
+            </Link>
             {/* <Link href="/" className="text-2xl font-bold">
               Blog<span className="text-primary">Space</span>
             </Link> */}

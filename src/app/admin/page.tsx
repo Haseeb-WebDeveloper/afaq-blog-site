@@ -8,8 +8,6 @@ import axios from "axios";
 
 export default function AdminDashboard() {
 
-  console.log("admin dashboard");
-
   const [stats, setStats] = useState([
     {
       title: "Total Posts",
@@ -40,8 +38,6 @@ export default function AdminDashboard() {
       try {
         const response = await fetch  ('/api/admin/dashboard');
         const { totalPosts, recentPosts: posts } = await response.json();
-
-        console.log(totalPosts, posts);
 
         if (response.status !== 200) {
           throw new Error("Failed to fetch dashboard data");

@@ -140,7 +140,6 @@ export async function DELETE(
   { params }: { params: { postId: string } }
 ) {
   try {
-    console.log('Deleting post:', params.postId);
     await connectDB();
     const post = await BlogPostModel.findOneAndDelete({ _id: params.postId });
 
@@ -168,8 +167,6 @@ export async function PATCH(
 ) {
   try {
     const { isPublished } = await req.json();
-    console.log('Patching post:', params.postId);
-    console.log('isPublished', isPublished);
 
     await connectDB();
     const post = await BlogPostModel.findOneAndUpdate(
@@ -178,8 +175,7 @@ export async function PATCH(
       { new: true }
     );
 
-    console.log('post', post.isPublished);
-
+      
     if (!post) {
       return NextResponse.json(
         { error: "Post not found" },

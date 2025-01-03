@@ -10,7 +10,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
         const { title, content, tags, featuredImage } = await req.json();
-        console.log(title, content, tags, featuredImage);
 
         if (!title || !content || !tags || !featuredImage) {
             return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
@@ -20,8 +19,6 @@ export async function POST(req: Request) {
 
         // creating blog post
         const blogPost = await BlogPostModel.create({ title, content, tags, featuredImage });
-
-        console.log(blogPost);
 
         return NextResponse.json({ 
             message: 'Blog post created successfully',

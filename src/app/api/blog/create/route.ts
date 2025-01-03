@@ -98,7 +98,6 @@ export async function POST(req: Request) {
 
         // Verify the post was created and fetch it with virtuals
         const createdPost = await BlogPostModel.findById(blogPost._id);
-        console.log(createdPost);
 
         return NextResponse.json({ 
             message: 'Blog post created successfully',

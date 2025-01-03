@@ -11,10 +11,8 @@ import { v2 as cloudinary } from 'cloudinary';
 
 export async function POST(request: NextRequest) {
     try {
-        console.log('Uploading file to Cloudinary');
         const { file } = await request.json();
         const result = await cloudinary.uploader.upload(file, { folder: 'BlogPosts' });
-        console.log('File uploaded to Cloudinary:', result);
         return NextResponse.json(result);
     } catch (error) {
         console.error('Error uploading file to Cloudinary:', error);

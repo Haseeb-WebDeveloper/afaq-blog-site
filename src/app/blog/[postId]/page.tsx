@@ -13,14 +13,11 @@ interface Props {
 export default async function BlogPostPage({ params }: Props) {
   try {
     await connectDB();
-    console.log('Looking for post with slug:', params.postId);
     
     const post = await BlogPostModel.findOne({ 
       slug: params.postId,
       isPublished: true 
     }).lean() as IBlogPost | null;
-    
-    console.log('Found post:', post ? post.title : 'Not found');
     
     if (!post) {
       notFound();

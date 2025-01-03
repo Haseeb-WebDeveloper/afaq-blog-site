@@ -46,7 +46,6 @@ export async function isAdmin(): Promise<boolean> {
 export async function getAuthorizationHeader(): Promise<{ user: User | null, token: string | null }> {
   const cookieStore = await cookies();
   const token = await cookieStore.get('token');
-  console.log(token);
   
   if (!token) {
     return { user: null, token: null };
