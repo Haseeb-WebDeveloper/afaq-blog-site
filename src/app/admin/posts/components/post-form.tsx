@@ -288,7 +288,7 @@ export function PostForm({ initialData, postId }: PostFormProps) {
 
         {/* Sidebar */}
         <div className="space-y-6">
-          <Card className="p-6">
+          <Card className="p-6 flex flex-col gap-4">
             {/* Publication Settings */}
             <div className="space-y-4">
               <h3 className="font-medium">Publication Settings</h3>

@@ -1,33 +1,29 @@
+"use client"
+
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { Card, CardContent } from '../ui/card';
+import { Badge } from '../ui/badge';
 
 export default function FeaturedPosts() {
-  const posts = [
-    {
-      category: "Technology",
-      readTime: "5 min read",
-      title: "The Future of Artificial Intelligence",
-      excerpt: "Exploring the latest developments in AI and their impact on our daily lives...",
-      author: "John Doe",
-      date: "April 12, 2024"
-    },
-    {
-      category: "Design",
-      readTime: "3 min read",
-      title: "Principles of Modern Web Design",
-      excerpt: "Understanding the key elements that make websites stand out in 2024...",
-      author: "Jane Smith",
-      date: "April 11, 2024"
-    },
-    {
-      category: "Development",
-      readTime: "7 min read",
-      title: "Building Scalable Applications",
-      excerpt: "Best practices for creating applications that can grow with your needs...",
-      author: "Mike Johnson",
-      date: "April 10, 2024"
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  // sending request to api to get the posts
+  async function getPosts() {
+    try {
+      const response = await fetch('/api/blog/feature-post');
+      const data = await response.json();
+      setPosts(data.featuredPosts);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
     }
-  ];
+  }
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -50,7 +46,7 @@ export default function FeaturedPosts() {
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {posts.map((post, index) => (
             <PostCard key={index} post={post} />
           ))}
@@ -62,28 +58,49 @@ export default function FeaturedPosts() {
 
 function PostCard({ post }: { post: any }) {
   return (
-    <div className="group relative bg-card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-      <div className="p-6">
-        <div className="flex items-center gap-x-2 mb-4">
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-            {post.category}
-          </span>
-          <span className="text-sm text-muted-foreground">{post.readTime}</span>
-        </div>
-        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-          {post.title}
-        </h3>
-        <p className="text-muted-foreground mb-4">
-          {post.excerpt}
-        </p>
-        <div className="flex items-center gap-x-4">
-          <div className="relative h-8 w-8 rounded-full bg-gradient-to-br from-primary to-primary/60" />
-          <div>
-            <p className="text-sm font-medium">{post.author}</p>
-            <p className="text-xs text-muted-foreground">Posted on {post.date}</p>
+    <Link 
+      key={post._id} 
+      href={`/blog/${post.slug}`}
+      className="group"
+    >
+      <Card className="h-full overflow-hidden hover:shadow-md transition-all duration-300 bg-card/50 backdrop-blur-sm">
+        {post.featuredImage && (
+          <div className="aspect-video relative overflow-hidden">
+            <img
+              src={post.featuredImage}
+              alt={post.title}
+              className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+            />
           </div>
-        </div>
-      </div>
-    </div>
+        )}
+        <CardContent className="p-5 flex flex-col h-[180px] justify-between">
+          {/* Content Section */}
+          <div className="space-y-3">
+            <h3 className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              {post.title}
+            </h3>
+            <p className="text-muted-foreground text-sm line-clamp-3">
+              {post.excerpt}
+            </p>
+          </div>
+
+          {/* Footer with Categories */}
+          <div className="flex items-center justify-between pt-4">
+            <div className="flex gap-2">
+              {post.categories?.slice(0, 2).map((category: string) => (
+                <Badge 
+                  key={category}
+                  variant="secondary"
+                  className="bg-primary/5 text-primary text-xs"
+                >
+                  {category}
+                </Badge>
+              ))}
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary transition-transform group-hover:translate-x-1" />
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
-} 
+}

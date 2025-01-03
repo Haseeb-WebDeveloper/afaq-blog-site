@@ -1,21 +1,7 @@
+import Image from "next/image";
+import { testimonials } from "@/constants/constant";
+
 export default function Testimonials() {
-  const testimonials = [
-    {
-      quote: "This platform has transformed how I share my stories. The community is incredibly supportive and engaging.",
-      author: "Sarah Johnson",
-      role: "Tech Writer"
-    },
-    {
-      quote: "The best blogging platform I've used. Clean interface and amazing features make writing a joy.",
-      author: "David Chen",
-      role: "Content Creator"
-    },
-    {
-      quote: "Found my voice and my audience here. The engagement tools are simply outstanding.",
-      author: "Emma Williams",
-      role: "Lifestyle Blogger"
-    }
-  ];
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
@@ -54,7 +40,9 @@ function TestimonialCard({ testimonial }: { testimonial: any }) {
           <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
         </div>
         <div className="flex items-center gap-4 mt-6 pt-6 border-t">
-          <div className="relative h-10 w-10 rounded-full bg-gradient-to-br from-primary to-primary/60" />
+          <div className="relative h-10 w-10 rounded-full">
+            <Image src={testimonial.authorImage} alt={testimonial.author} width={100} height={100} className="w-10 h-10 rounded-full object-cover" />
+          </div>
           <div>
             <p className="font-medium">{testimonial.author}</p>
             <p className="text-sm text-muted-foreground">{testimonial.role}</p>

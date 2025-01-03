@@ -164,22 +164,21 @@ export async function DELETE(
 // Toggle publish status (existing code)
 export async function PATCH(
   req: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: { postId: string } }
 ) {
   try {
-    const user = await getUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { isPublished } = await req.json();
+    console.log('Patching post:', params.postId);
+    console.log('isPublished', isPublished);
 
     await connectDB();
     const post = await BlogPostModel.findOneAndUpdate(
-      { slug: params.slug },
+      { _id: await params.postId },
       { isPublished },
       { new: true }
     );
+
+    console.log('post', post.isPublished);
 
     if (!post) {
       return NextResponse.json(
