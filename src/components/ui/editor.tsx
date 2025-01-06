@@ -20,9 +20,15 @@ export function Editor({ value, onChange }: EditorProps) {
     }
   };
 
+  const apiKey = process.env.TINYMCE_API_KEY || '0yjhs49kdhknwm2or3apawddwfxc3ptzu9y964f7cdvspjdh';
+
+  if (!apiKey) {
+    throw new Error('TINYMCE_API_KEY is not set in the environment variables');
+  }
+
   return (
     <TinyMCEEditor
-      apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+      apiKey={apiKey}
       value={value}
       init={{
         height: 500,
