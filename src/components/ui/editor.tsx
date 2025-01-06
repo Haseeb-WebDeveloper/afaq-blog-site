@@ -22,7 +22,7 @@ export function Editor({ value, onChange }: EditorProps) {
 
   return (
     <TinyMCEEditor
-      apiKey="0yjhs49kdhknwm2or3apawddwfxc3ptzu9y964f7cdvspjdh"
+      apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
       value={value}
       init={{
         height: 500,
