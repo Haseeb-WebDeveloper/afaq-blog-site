@@ -12,6 +12,7 @@ import axios from "axios";
 interface Post {
   _id: string;
   title: string;
+  slug: string;
   content: string;
   isPublished: boolean;
   createdAt: string;
@@ -98,7 +99,7 @@ export default function PostsPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Link href={`/blog/${post._id}`} >
+                  <Link href={`/blog/${post.slug}`} >
                     <Button variant="ghost" size="icon" title="View post">
                       <Eye className="w-4 h-4" />
                     </Button>

@@ -9,22 +9,30 @@ interface EditorProps {
 }
 
 export function Editor({ value, onChange }: EditorProps) {
-  const handleImageUpload = async (blobInfo: any) => {
+  const handleImageUpload = async (blobInfo: any): Promise<string> => {
     try {
-      const base64 = blobInfo.base64();
-      const response = await uploadToCloudinary(base64);
-      return response.secure_url;
+      // Convert blob to base64
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blobInfo.blob());
+        reader.onload = async () => {
+          try {
+            const base64 = reader.result as string;
+            const response = await uploadToCloudinary(base64);
+            resolve(response.secure_url);
+          } catch (error) {
+            reject(error);
+          }
+        };
+        reader.onerror = (error) => reject(error);
+      });
     } catch (error) {
       console.error('Error uploading image:', error);
-      throw error;
+      throw new Error('Failed to upload image');
     }
   };
 
-  const apiKey = process.env.TINYMCE_API_KEY || '0yjhs49kdhknwm2or3apawddwfxc3ptzu9y964f7cdvspjdh';
-
-  if (!apiKey) {
-    throw new Error('TINYMCE_API_KEY is not set in the environment variables');
-  }
+  const apiKey = process.env.NEXT_PUBLIC_TINYMCE_API_KEY || '0yjhs49kdhknwm2or3apawddwfxc3ptzu9y964f7cdvspjdh';
 
   return (
     <TinyMCEEditor
@@ -42,9 +50,11 @@ export function Editor({ value, onChange }: EditorProps) {
           'bold italic forecolor | alignleft aligncenter ' +
           'alignright alignjustify | bullist numlist outdent indent | ' +
           'removeformat | image | help',
-        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+        content_style: 'body { font-family:Inter, Arial,sans-serif; font-size:14px }',
         images_upload_handler: handleImageUpload,
         automatic_uploads: true,
+        file_picker_types: 'image',
+        images_reuse_filename: true,
       }}
       onEditorChange={onChange}
     />
