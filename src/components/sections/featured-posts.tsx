@@ -73,7 +73,7 @@ function PostCard({ post }: { post: any }) {
             />
           </div>
         )}
-        <CardContent className="p-5 flex flex-col h-[180px] justify-between">
+        <CardContent className="p-4 flex flex-col min-h-[180px] justify-between">
           {/* Content Section */}
           <div className="space-y-3">
             <h3 className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">

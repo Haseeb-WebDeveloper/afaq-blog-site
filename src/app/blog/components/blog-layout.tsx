@@ -179,7 +179,7 @@ export default function BlogLayout({ content, searchParams }: BlogLayoutProps) {
                         />
                       </div>
                     )}
-                    <CardContent className="px-4 pt-3 flex flex-col  justify-between">
+                    <CardContent className="p-4 flex flex-col  justify-between">
                       {/* Content Section */}
                       <div className="space-y-3">
                         <h3 className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">

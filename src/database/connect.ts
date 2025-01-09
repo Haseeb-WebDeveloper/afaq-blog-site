@@ -9,7 +9,12 @@ if (!MONGODB_URI) {
 let isConnected = false;
 
 export default async function connectDB() {
+  if (isConnected) {
+    return;
+  }
+
   try {
+    console.log(MONGODB_URI)
     await mongoose.connect(MONGODB_URI);
     isConnected = true;
   } catch (error) {

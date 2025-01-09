@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getUser } from '@/lib/auth';
 import Link from 'next/link';
 import { LayoutDashboard, FileText, Settings, LogOut } from 'lucide-react';
+import LogoutButton from '@/components/forms/logout-button';
 
 export default async function AdminLayout({
   children,
@@ -15,6 +16,7 @@ export default async function AdminLayout({
   // if (!user) {
   //   redirect('/auth/login');
   // }
+
 
   return (
     <div className="min-h-screen flex bg-muted/30">
@@ -55,13 +57,7 @@ export default async function AdminLayout({
           </ul>
         </nav>
         <div className="p-4 border-t">
-          <Link 
-            href="/api/auth/logout"
-            className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-destructive/10 text-destructive transition-colors w-full"
-          >
-            <LogOut size={20} />
-            Logout
-          </Link>
+         <LogoutButton />
         </div>
       </aside>
 

@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { verifyToken } from './jwt';
+import { redirect } from 'next/navigation';
 
 export interface User {
   id: string;
@@ -131,3 +132,5 @@ export async function getAuthStatus(): Promise<AuthStatus> {
     user
   };
 } 
+
+
