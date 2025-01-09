@@ -18,7 +18,8 @@ export default function DeletePostButton({ postId }: { postId: string }) {
     setIsDeleting(true);
     try {
       await axios.delete(`/api/blog/${postId}`);
-      router.refresh();
+      // hard refresh the page
+      window.location.reload();
     } catch (error) {
       console.error('Error deleting post:', error);
       alert('Failed to delete post');

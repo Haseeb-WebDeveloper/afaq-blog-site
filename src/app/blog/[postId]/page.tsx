@@ -23,6 +23,8 @@ export default async function BlogPostPage({ params }: Props) {
       notFound();
     }
 
+    // TODO: add similar posts to the bottom of the page
+
     return (
       <>
         {/* Structured Data */}
@@ -76,14 +78,14 @@ export default async function BlogPostPage({ params }: Props) {
                         {format(new Date(post.createdAt || ''), 'MMMM d, yyyy')}
                       </time>
                     </div>
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4" />
                       <span>{post.readingTime} min read</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <User className="w-4 h-4" />
                       <span>By {post.author}</span>
-                    </div>
+                    </div> */}
                   </div>
                 </header>
 

@@ -137,12 +137,12 @@ function LoginForm() {
             </Button>
           </form>
 
-          <div className="pt-4 text-center text-sm">
+          <div className="pt-2 text-center text-sm">
             <Link 
-              href="/auth/forgot-password"
-              className="text-primary hover:underline"
+              href="/auth/signup"
+              className='hover:underline '
             >
-              Forgot password?
+              Don't have an account? <span className="text-primary">Sign up</span>
             </Link>
           </div>
         </div>

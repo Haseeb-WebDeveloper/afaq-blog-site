@@ -24,6 +24,8 @@ export default function PostsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // TODO: add a search bar to search for posts and filter them
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {

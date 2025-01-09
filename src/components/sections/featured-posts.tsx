@@ -47,7 +47,8 @@ export default function FeaturedPosts() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {posts.map((post, index) => (
+          {/* only show 4 posts */}
+          {posts.slice(0, 4).map((post, index) => (
             <PostCard key={index} post={post} />
           ))}
         </div>

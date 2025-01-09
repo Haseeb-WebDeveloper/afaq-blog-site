@@ -13,7 +13,6 @@ interface PublishButtonProps {
 
 export default function PublishButton({ postId, isPublished }: PublishButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleTogglePublish = async () => {
     setIsLoading(true);
@@ -21,7 +20,8 @@ export default function PublishButton({ postId, isPublished }: PublishButtonProp
       await axios.patch(`/api/blog/${postId}`, {
         isPublished: !isPublished
       });
-      router.refresh();
+      // hard refresh the page
+      window.location.reload();
     } catch (error) {
       console.error('Error updating post:', error);
       alert('Failed to update post status');
