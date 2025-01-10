@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: "@haseebahmedkhan"
+    creator: "@haseebahmed"
   },
   robots: {
     index: true,
