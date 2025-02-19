@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Editor } from '@/components/ui/editor';
 import { ImageUploadBox } from '@/components/ui/image-upload-box';
-import { CATEGORIES, TAGS } from "@/constants/constant";
 import { cn } from "@/lib/utils";
 
 interface PostFormProps {
@@ -62,6 +61,10 @@ export function PostForm({ initialData, postId }: PostFormProps) {
     readingTime: initialData?.readingTime || 0,
   });
 
+  // Add new state for tag/category input
+  const [newTag, setNewTag] = useState('');
+  const [newCategory, setNewCategory] = useState('');
+
   // Generate slug from title
   const generateSlug = (title: string) => {
     return title
@@ -100,6 +103,48 @@ export function PostForm({ initialData, postId }: PostFormProps) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Add handlers for tags
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && newTag.trim()) {
+      e.preventDefault();
+      if (!formData.tags.includes(newTag.trim())) {
+        setFormData({
+          ...formData,
+          tags: [...formData.tags, newTag.trim()]
+        });
+      }
+      setNewTag('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setFormData({
+      ...formData,
+      tags: formData.tags.filter(tag => tag !== tagToRemove)
+    });
+  };
+
+  // Add handlers for categories
+  const handleAddCategory = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && newCategory.trim()) {
+      e.preventDefault();
+      if (!formData.categories.includes(newCategory.trim())) {
+        setFormData({
+          ...formData,
+          categories: [...formData.categories, newCategory.trim()]
+        });
+      }
+      setNewCategory('');
+    }
+  };
+
+  const handleRemoveCategory = (categoryToRemove: string) => {
+    setFormData({
+      ...formData,
+      categories: formData.categories.filter(category => category !== categoryToRemove)
+    });
   };
 
   const tabs = [
@@ -291,9 +336,10 @@ export function PostForm({ initialData, postId }: PostFormProps) {
             {/* Publication Settings */}
             <div className="space-y-4">
               <h3 className="font-medium">Publication Settings</h3>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 flex-col">
                 <Button
                   type="button"
+                  className="w-full"
                   variant={formData.isPublished ? "default" : "outline"}
                   onClick={() => setFormData({ ...formData, isPublished: !formData.isPublished })}
                 >
@@ -302,6 +348,7 @@ export function PostForm({ initialData, postId }: PostFormProps) {
                 </Button>
                 <Button
                   type="button"
+                  className="w-full"
                   variant={formData.isFeatured ? "default" : "outline"}
                   onClick={() => setFormData({ ...formData, isFeatured: !formData.isFeatured })}
                 >
@@ -313,46 +360,54 @@ export function PostForm({ initialData, postId }: PostFormProps) {
             {/* Categories */}
             <div className="space-y-4">
               <h3 className="font-medium">Categories</h3>
-              <div className="flex flex-wrap gap-2">
-                {CATEGORIES.map((category) => (
-                  <Button
-                    key={category}
-                    type="button"
-                    variant={formData.categories.includes(category) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => {
-                      const newCategories = formData.categories.includes(category)
-                        ? formData.categories.filter(c => c !== category)
-                        : [...formData.categories, category];
-                      setFormData({ ...formData, categories: newCategories });
-                    }}
-                  >
-                    {category}
-                  </Button>
-                ))}
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  {formData.categories.map((category) => (
+                    <Button
+                      key={category}
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => handleRemoveCategory(category)}
+                      className="group flex items-center"
+                    >
+                      {category}
+                      <X className="w-3 h-3 ml-2 text-muted-foreground 4hover:text-foreground transition-opacity" />
+                    </Button>
+                  ))}
+                </div>
+                <Input
+                  placeholder="Add a category (press Enter)"
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  onKeyDown={handleAddCategory}
+                />
               </div>
             </div>
 
             {/* Tags */}
             <div className="space-y-4">
               <h3 className="font-medium">Tags</h3>
-              <div className="flex flex-wrap gap-2">
-                {TAGS.map((tag) => (
-                  <Button
-                    key={tag}
-                    type="button"
-                    variant={formData.tags.includes(tag) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => {
-                      const newTags = formData.tags.includes(tag)
-                        ? formData.tags.filter(t => t !== tag)
-                        : [...formData.tags, tag];
-                      setFormData({ ...formData, tags: newTags });
-                    }}
-                  >
-                    {tag}
-                  </Button>
-                ))}
+              <div className="space-y-4">
+                <div className="flex flex-wrap gap-2 items-center">
+                  {formData.tags.map((tag) => (
+                    <Button
+                      key={tag}
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => handleRemoveTag(tag)}
+                      className="group flex items-center"
+                    >
+                      {tag}
+                      <X className="w-3 h-3 ml-2 text-muted-foreground/40 hover:text-foreground transition-opacity" />
+                    </Button>
+                  ))}
+                </div>
+                <Input
+                  placeholder="Add a tag (press Enter)"
+                  value={newTag}
+                  onChange={(e) => setNewTag(e.target.value)}
+                  onKeyDown={handleAddTag}
+                />
               </div>
             </div>
 

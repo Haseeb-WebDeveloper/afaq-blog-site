@@ -1,69 +1,59 @@
-export const CATEGORIES = [
-  'Tools',
-  'Programming',
-  'Business',
-  'Marketing',
-  'Lifestyle',
-  'Travel',
-  'Food'
-];
+// export const CATEGORIES = [
+//   'Tools',
+//   'Programming',
+//   'Business',
+//   'Marketing',
+//   'Lifestyle',
+//   'Travel',
+//   'Food'
+// ];
 
-export const TAGS = [
-  // Tools
-  'Productivity',
-  'Collaboration',
-  'Project Management',
-  'Task Automation',
-  'Time Tracking',
-
-  // Programming
-  'JavaScript',
-  'Python',
-  'Web Development',
-  'Frontend',
-  'Backend',
-  'React',
-  'Next.js',
-  'Node.js',
-  'API Development',
-
-  // Business
-  'Entrepreneurship',
-  'Startups',
-  'Leadership',
-  'Finance',
-  'E-commerce',
-  'Customer Success',
-
-  // Marketing
-  'Social Media',
-  'SEO',
-  'Content Marketing',
-  'Email Marketing',
-  'Branding',
-  'Paid Ads',
-
-  // Lifestyle
-  'Wellness',
-  'Fitness',
-  'Personal Development',
-  'Work-Life Balance',
-  'Minimalism',
-
-  // Travel
-  'Adventure',
-  'Destinations',
-  'Travel Tips',
-  'Photography',
-  'Solo Travel',
-
-  // Food
-  'Recipes',
-  'Cuisines',
-  'Healthy Eating',
-  'Street Food',
-  'Food Reviews'
-];
+// export const TAGS = [
+//   // Tools
+//   'Productivity',
+//   // Programming
+//   'JavaScript',
+//   'Python',
+//   'Web Development',
+//   'Frontend',
+//   'Backend',
+//   'React',
+//   'Next.js',
+//   'Node.js',
+//   'API Development',
+//   // Business
+//   'Entrepreneurship',
+//   'Startups',
+//   'Leadership',
+//   'Finance',
+//   'E-commerce',
+//   'Customer Success',
+//   // Marketing
+//   'Social Media',
+//   'SEO',
+//   'Content Marketing',
+//   'Email Marketing',
+//   'Branding',
+//   'Paid Ads',
+//   // Lifestyle
+//   'Wellness',
+//   'Fitness',
+//   'Personal Development',
+//   'Work-Life Balance',
+//   'Minimalism',
+//   // Travel
+//   'Adventure',
+//   'Destinations',
+//   'Travel Tips',
+//   'Photography',
+//   'Solo Travel',
+//   // Food
+//   'Recipes',
+//   'Cuisines',
+//   'Healthy Eating',
+//   'Street Food',
+//   'Food Reviews'
+// ];
 
 export const testimonials = [
   {
