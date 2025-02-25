@@ -75,6 +75,8 @@ export async function PUT(
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '');
 
+      
+
     // Process tags and categories
     const processedTags = Array.isArray(tags) ? tags : tags.split(',').map((tag: string) => tag.trim());
     const processedCategories = Array.isArray(categories) ? categories : categories.split(',').map((cat: string) => cat.trim());
