@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 export async function POST(req: NextRequest) {
     const token = req.cookies.get('token');
     const decoded = await verifyToken(token?.value || '');
-    console.log(decoded, token)
+    // console.log(decoded, token)
     if (!decoded) {
         return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }

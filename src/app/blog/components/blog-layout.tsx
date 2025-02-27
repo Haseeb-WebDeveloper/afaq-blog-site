@@ -96,7 +96,7 @@ export default function BlogLayout({ content, searchParams }: BlogLayoutProps) {
                   <h3 className="font-medium text-sm text-foreground/80">Categories</h3>
                   <ScrollArea className="h-[280px]">
                     <div className="space-y-1 pr-4">
-                      {CATEGORIES.map((category) => (
+                      {CATEGORIES?.map((category) => (
                         <Link
                           key={category}
                           href={`/blog?category=${category}`}
@@ -120,7 +120,7 @@ export default function BlogLayout({ content, searchParams }: BlogLayoutProps) {
                 {/* <div className="space-y-3">
                   <h3 className="font-medium text-sm text-foreground/80">Popular Tags</h3>
                   <div className="flex flex-wrap gap-2">
-                    {TAGS.map((tag) => (
+                    {TAGS?.map((tag) => (
                       <Link key={tag} href={`/blog?tag=${tag}`}>
                         <Badge 
                           variant={searchParams.tag === tag ? "default" : "secondary"}
@@ -163,7 +163,7 @@ export default function BlogLayout({ content, searchParams }: BlogLayoutProps) {
 
             {/* Posts Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {posts.map((post) => (
+              {posts?.map((post) => (
                 <Link 
                   key={post._id} 
                   href={`/blog/${post.slug}`}
